@@ -105,39 +105,78 @@ public class WhatsappRepository {
         }
 
         public int removeUser(User user)throws Exception{
-                boolean check = false;
-                Group group1 = null;
-                for(Group group : groupMap.keySet()){
-                        for(User user1 : groupMap.get(group)){
-                                if(user1.equals(user)){
-                                        check = true;
-                                        group1= group;
-                                        break;
+//                boolean check = false;
+//                Group group1 = null;
+//                for(Group group : groupMap.keySet()){
+//                        for(User user1 : groupMap.get(group)){
+//                                if(user1.equals(user)){
+//                                        check = true;
+//                                        group1= group;
+//                                        break;
+//                                }
+//                        }
+//                }
+//                if(!check){
+//                        throw new Exception("User not found");
+//                }
+//                if(groupMap.get(group1).get(0).equals(user)){
+//                        throw new Exception("Cannot remove admin");
+//                }
+//                List<Message> userMessages = userMessageListMap.get(user);
+//                for(Group group : messageInGroup.keySet()){
+//                        for(Message message : messageInGroup.get(group)){
+//                                if(userMessages.contains(message)){
+//                                        messageInGroup.get(group).remove(message);
+//                                }
+//                        }
+//                }
+//                for(Message message : messageList){
+//                        if(userMessages.contains(message)){
+//                                messageList.remove(message);
+//                        }
+//                }
+//                groupMap.get(group1).remove(user);
+//                userMessageListMap.remove(user);
+//                return groupMap.get(group1).size()+messageInGroup.get(group1).size()+messageList.size();
+
+
+                boolean userFound = false;
+                int groupSize = 0;
+                int messageCount = 0;
+                int overallMessageCount = messageList.size();
+                Group groupToRemoveFrom = null;
+                for (Map.Entry<Group, List<User>> entry : groupMap.entrySet()) {
+                        List<User> groupUsers = entry.getValue();
+                        if (groupUsers.contains(user))
+                        {
+                                userFound = true;
+                                groupToRemoveFrom = entry.getKey();
+                                if (groupUsers.get(0).equals(user))
+                                {
+                                        throw new Exception("Cannot remove admin");
                                 }
+                                groupUsers.remove(user);
+                                groupSize = groupUsers.size();
+                                break;
                         }
                 }
-                if(!check){
+                if (!userFound)
+                {
                         throw new Exception("User not found");
                 }
-                if(groupMap.get(group1).get(0).equals(user)){
-                        throw new Exception("Cannot remove admin");
-                }
-                List<Message> userMessages = userMessageListMap.get(user);
-                for(Group group : messageInGroup.keySet()){
-                        for(Message message : messageInGroup.get(group)){
-                                if(userMessages.contains(message)){
-                                        messageInGroup.get(group).remove(message);
-                                }
-                        }
-                }
-                for(Message message : messageList){
-                        if(userMessages.contains(message)){
-                                messageList.remove(message);
-                        }
-                }
-                groupMap.get(group1).remove(user);
-                userMessageListMap.remove(user);
-                return groupMap.get(group1).size()+messageInGroup.get(group1).size()+messageList.size();
 
+                if (userMessageListMap.containsKey(user))
+                {
+                        messageCount = userMessageListMap.get(user).size() - 2;
+                        userMessageListMap.remove(user);
+                }
+
+
+                return groupSize + messageCount + overallMessageCount;
+
+        }
+        public String findMessage(Date start, Date end, int k) {
+
+                return "Wait";
         }
 }
