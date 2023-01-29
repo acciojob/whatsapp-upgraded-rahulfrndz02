@@ -30,19 +30,19 @@ public class WhatsappRepository {
                         groupMap.put(group, users);
                         return group;
                 }
-                Group group = new Group("Group"+ groupCount++, users.size());
+                Group group = new Group("Group"+ ++groupCount, users.size());
                 groupMap.put(group, users);
                 return group;
         }
 
-                public int createMessage(String content){
-                Message message = new Message(messageCount++, content);
+        public int createMessage(String content){
+                Message message = new Message(++messageCount, content);
                 message.setTimestamp(new Date());
                 messageList.add(message);
                 return messageCount;
         }
 
-                public int sendMessage(Message message,User sender,Group group)throws Exception{
+        public int sendMessage(Message message,User sender,Group group)throws Exception{
                 if(!groupMap.containsKey(group)){
                         throw new Exception("Group does not exist");
                 }
@@ -104,7 +104,7 @@ public class WhatsappRepository {
                 groupMap.get(group).add(0,newAdmin);
         }
 
-                public int removeUser(User user)throws Exception{
+        public int removeUser(User user)throws Exception{
                 boolean check = false;
                 Group group1 = null;
                 for(Group group : groupMap.keySet()){
