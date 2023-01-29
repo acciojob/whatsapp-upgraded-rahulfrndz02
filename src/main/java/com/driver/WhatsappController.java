@@ -45,7 +45,6 @@ public class WhatsappController {
 
         //For example: Consider userList1 = {Alex, Bob, Charlie}, userList2 = {Dan, Evan}, userList3 = {Felix, Graham, Hugh}.
         //If createGroup is called for these userLists in the same order, their group names would be "Group 1", "Evan", and "Group 2" respectively.
-        whatsappService.createGroup(users);
         return whatsappService.createGroup(users);
     }
 
